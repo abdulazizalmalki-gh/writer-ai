@@ -1,20 +1,31 @@
 # WriterAI
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.4.
+WriterAI is a minimal writing app:
 
-## Development server
+- Left sidebar: a list of pages
+- Main area: a plain-text editor
+- Optional Markdown preview (toggle)
 
-To start a local development server, run:
+Data is persisted in Postgres via a small Node/Express API.
 
-```bash
-ng serve
-```
+## Features
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Pages**: create and select pages from the sidebar
+- **Rename**: open the row actions (three-dots) → inline actions strip → rename icon
+- **Autosave**: typing updates local state immediately and persists to the API with a short debounce (~350ms)
+- **Markdown preview**: uses `marked` to render the current page content
+	- Preserves extra vertical spacing (blank lines) so preview matches the editor more closely
+	- Continues bullet lists on Enter for `- ` and `* `
 
 ## Docker Compose (recommended)
 
-Runs the full stack locally (Postgres + API + Web) with the web app served on port 4200 and `/api/*` proxied to the API.
+Runs the full stack locally:
+
+- `web`: Nginx serving the Angular build on `http://localhost:4200/`
+- `api`: Node/Express API on `http://localhost:3001/`
+- `postgres`: Postgres 16
+
+Start:
 
 ```bash
 npm run compose:up
@@ -30,48 +41,68 @@ Stop:
 npm run compose:down
 ```
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+If you change the frontend and want Docker to pick it up, rebuild + recreate `web`:
 
 ```bash
-ng generate component component-name
+docker compose -p writer-ai up -d --build --force-recreate web
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Local development (API + Angular dev server)
+
+Start Postgres (from `docker-compose.yml`) and run API + Angular dev server together:
 
 ```bash
-ng generate --help
+npm run dev
 ```
 
-## Building
+- Angular dev server runs at `http://localhost:4200/`
+- `/api/*` is proxied to the API (see `proxy.conf.json`)
 
-To build the project run:
+Stop Postgres:
 
 ```bash
-ng build
+npm run dev:down
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Reset Postgres volume:
 
 ```bash
-ng test
+npm run dev:reset
 ```
 
-## Running end-to-end tests
+## Database connection (for DB viewers)
 
-For end-to-end (e2e) testing, run:
+When running via Docker Compose from this repo:
+
+- Host: `localhost`
+- Port: `5432`
+- Database: `writer`
+- Username: `writer`
+- Password: `writer`
+
+URI:
+
+```text
+postgresql://writer:writer@localhost:5432/writer
+```
+
+## API endpoints
+
+- `GET /healthz`
+- `GET /api/pages`
+- `POST /api/pages`
+- `PATCH /api/pages/:id`
+
+## Build & test
+
+Build:
 
 ```bash
-ng e2e
+npm run build
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Unit tests:
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+npm test
+```

@@ -17,7 +17,7 @@ Data is persisted in Postgres via a small Node/Express API.
 	- Preserves extra vertical spacing (blank lines) so preview matches the editor more closely
 	- Continues bullet lists on Enter for `- ` and `* `
 
-## Docker Compose (recommended)
+## Docker Compose (recommended for reviewers)
 
 Runs the full stack locally:
 
@@ -41,15 +41,26 @@ Stop:
 npm run compose:down
 ```
 
+Notes:
+
+- `compose:up` runs **web + api + postgres** in Docker.
+- If you later want to use `npm run dev`, stop the Docker `web` and `api` services first to avoid port conflicts on `4200` and `3001`.
+
 If you change the frontend and want Docker to pick it up, rebuild + recreate `web`:
 
 ```bash
 docker compose -p writer-ai up -d --build --force-recreate web
 ```
 
-## Local development (API + Angular dev server)
+## Local development (for making code changes)
 
-Start Postgres (from `docker-compose.yml`) and run API + Angular dev server together:
+Use `npm run dev` when you are actively changing frontend/backend code and want a faster edit-run loop.
+
+- Angular dev server runs on your machine
+- API runs on your machine
+- Postgres runs in Docker (same DB + `/api` endpoints)
+
+Start Postgres (Docker) and run API + Angular dev server locally:
 
 ```bash
 npm run dev
@@ -57,6 +68,17 @@ npm run dev
 
 - Angular dev server runs at `http://localhost:4200/`
 - `/api/*` is proxied to the API (see `proxy.conf.json`)
+
+If you previously ran `npm run compose:up`, stop the Docker `web` and `api` services before running `dev`:
+
+```bash
+docker compose stop web api
+```
+
+### When to use `compose:up` vs `dev`
+
+- `npm run compose:up`: best for reviewers (one stack, Dockerized web served by Nginx)
+- `npm run dev`: best for developers making changes (no rebuilding the `web` container for every UI change)
 
 Stop Postgres:
 

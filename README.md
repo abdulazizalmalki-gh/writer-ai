@@ -128,3 +128,7 @@ Unit tests:
 ```bash
 npm test
 ```
+
+## License
+
+MIT — see [LICENSE](LICENSE).

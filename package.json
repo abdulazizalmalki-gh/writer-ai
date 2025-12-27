@@ -29,6 +29,7 @@
     ]
   },
   "private": true,
+  "license": "MIT",
   "packageManager": "npm@11.6.1",
   "dependencies": {
     "@angular/common": "^21.0.0",

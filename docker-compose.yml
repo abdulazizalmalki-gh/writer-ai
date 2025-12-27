@@ -1,0 +1,50 @@
+name: writer-ai
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: writer-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: writer
+      POSTGRES_USER: writer
+      POSTGRES_PASSWORD: writer
+    volumes:
+      - writer-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U writer -d writer"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: writer-api
+    environment:
+      PORT: "3001"
+      PGHOST: postgres
+      PGPORT: "5432"
+      PGDATABASE: writer
+      PGUSER: writer
+      PGPASSWORD: writer
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "3001:3001"
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: writer-web
+    depends_on:
+      - api
+    ports:
+      - "4200:80"
+
+volumes:
+  writer-postgres-data:

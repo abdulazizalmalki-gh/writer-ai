@@ -1,0 +1,56 @@
+{
+  "name": "writer-ai",
+  "version": "0.0.0",
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test",
+    "start:api": "node server/api.js",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "dev": "npm run db:up && concurrently -k -n api,web \"npm run start:api\" \"npm start -- --port 4200\"",
+    "dev:down": "npm run db:down",
+    "dev:reset": "docker compose down -v",
+    "compose:up": "docker compose up -d --build",
+    "compose:down": "docker compose down"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "overrides": [
+      {
+        "files": "*.html",
+        "options": {
+          "parser": "angular"
+        }
+      }
+    ]
+  },
+  "private": true,
+  "packageManager": "npm@11.6.1",
+  "dependencies": {
+    "@angular/common": "^21.0.0",
+    "@angular/compiler": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/forms": "^21.0.0",
+    "@angular/platform-browser": "^21.0.0",
+    "@angular/router": "^21.0.0",
+    "express": "^5.1.0",
+    "marked": "^16.2.1",
+    "pg": "^8.16.3",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.3.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.0.4",
+    "@angular/cli": "^21.0.4",
+    "@angular/compiler-cli": "^21.0.0",
+    "concurrently": "^9.2.1",
+    "jsdom": "^27.1.0",
+    "serve": "^14.2.5",
+    "typescript": "~5.9.2",
+    "vitest": "^4.0.8"
+  }
+}

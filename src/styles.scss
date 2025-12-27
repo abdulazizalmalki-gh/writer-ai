@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	color: rgba(0, 0, 0, 0.92);
+	background: rgba(0, 0, 0, 0.02);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}

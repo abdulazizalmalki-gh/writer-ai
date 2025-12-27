@@ -1,0 +1,105 @@
+<div class="app-shell" (click)="closePageMenu()">
+  <aside class="sidebar" aria-label="Pages">
+    <header class="sidebar-header">
+      <h1 class="sidebar-title">Pages</h1>
+      <button type="button" class="button" (click)="addPage()">New</button>
+    </header>
+
+    <nav class="page-list" aria-label="Page list">
+      @for (page of pages(); track page.id) {
+        <div
+          class="page-item"
+          [class.page-item--active]="page.id === selectedPageId()"
+          (click)="selectPage(page.id)"
+        >
+          <div class="page-title">
+            @if (renamingPageId === page.id) {
+              <input
+                class="page-title-input"
+                [value]="page.title"
+                (click)="$event.stopPropagation()"
+                (input)="renamePage(page.id, ($any($event.target)).value)"
+                (blur)="stopRenaming()"
+                (keydown.enter)="stopRenaming()"
+                (keydown.escape)="stopRenaming()"
+                aria-label="Page title"
+                spellcheck="false"
+                autofocus
+              />
+            } @else {
+              <div class="page-title-text">{{ page.title }}</div>
+            }
+          </div>
+
+          <div class="page-actions" (click)="$event.stopPropagation()">
+            @if (openPageMenuId === page.id) {
+              <div class="page-actions-panel" role="group" aria-label="Page actions">
+                <button
+                  type="button"
+                  class="page-action-icon"
+                  aria-label="Rename"
+                  title="Rename"
+                  (click)="startRenaming(page.id)"
+                >
+                  ✎
+                </button>
+              </div>
+            } @else {
+              <button
+                type="button"
+                class="page-menu-trigger"
+                aria-label="Page actions"
+                (click)="togglePageMenu(page.id)"
+              >
+                ⋮
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </nav>
+  </aside>
+
+  <main class="editor" aria-label="Editor">
+    @if (selectedPage(); as page) {
+      <header class="editor-header">
+        <div class="editor-title">{{ page.title }}</div>
+        <button
+          type="button"
+          class="button"
+          (click)="toggleMarkdownPreview()"
+          [attr.aria-pressed]="showMarkdownPreview"
+        >
+          Markdown Preview
+        </button>
+      </header>
+
+      <div
+        class="editor-body"
+        [class.editor-body--preview]="showMarkdownPreview"
+        aria-label="Editor body"
+      >
+        <div class="editor-pane" aria-label="Editor input">
+          <textarea
+            class="editor-textarea"
+            [value]="page.content"
+            (input)="updateSelectedContent(($any($event.target)).value)"
+            (keydown)="onEditorKeydown($event, ($any($event.target)))"
+            placeholder="Start writing…"
+            spellcheck="true"
+          ></textarea>
+        </div>
+
+        @if (showMarkdownPreview) {
+          <section class="editor-preview" aria-label="Markdown Preview">
+            <div class="editor-preview-header">Markdown Preview</div>
+            <div class="markdown-preview" [innerHTML]="renderMarkdown(page.content)"></div>
+          </section>
+        }
+      </div>
+    } @else {
+      <div class="editor-empty">Select a page to begin.</div>
+    }
+  </main>
+</div>
+

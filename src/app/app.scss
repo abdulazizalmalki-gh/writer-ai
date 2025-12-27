@@ -1,0 +1,343 @@
+
+* {
+	box-sizing: border-box;
+}
+
+.app-shell {
+	height: 100vh;
+	width: 100%;
+	display: grid;
+	grid-template-columns: 300px 1fr;
+	background: rgba(0, 0, 0, 0.02);
+}
+
+.sidebar {
+	border-right: 1px solid rgba(0, 0, 0, 0.08);
+	padding: 14px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	background: rgba(255, 255, 255, 0.72);
+	backdrop-filter: blur(6px);
+}
+
+.sidebar-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.sidebar-title {
+	font-size: 16px;
+	font-weight: 600;
+	margin: 0;
+}
+
+.button {
+	border: 1px solid rgba(0, 0, 0, 0.18);
+	background: rgba(255, 255, 255, 0.9);
+	padding: 7px 11px;
+	border-radius: 10px;
+	cursor: pointer;
+	transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+}
+
+.button:hover {
+	background: rgba(255, 255, 255, 1);
+	border-color: rgba(0, 0, 0, 0.26);
+}
+
+.button:active {
+	transform: translateY(1px);
+}
+
+.button:focus-visible {
+	outline: 2px solid rgba(0, 0, 0, 0.28);
+	outline-offset: 2px;
+}
+
+.page-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	overflow: auto;
+	padding-right: 2px;
+}
+
+.page-item {
+	border: 1px solid rgba(0, 0, 0, 0.10);
+	background: rgba(255, 255, 255, 0.75);
+	border-radius: 12px;
+	padding: 8px 10px;
+	cursor: pointer;
+	transition: background 120ms ease, border-color 120ms ease, transform 120ms ease;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+}
+
+.page-item:hover {
+	border-color: rgba(0, 0, 0, 0.18);
+	background: rgba(255, 255, 255, 0.95);
+}
+
+.page-item--active {
+	border-color: rgba(0, 0, 0, 0.32);
+	background: rgba(255, 255, 255, 1);
+}
+
+.page-title {
+	min-width: 0;
+	flex: 1;
+}
+
+.page-title-text {
+	font-size: 14px;
+	font-weight: 600;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.page-title-input {
+	width: 100%;
+	border: 0;
+	outline: none;
+	background: transparent;
+	font: inherit;
+	font-size: 14px;
+	font-weight: 600;
+	padding: 2px 2px;
+}
+
+.page-title-input::selection {
+	background: rgba(0, 0, 0, 0.10);
+}
+
+.page-title-input:focus-visible {
+	outline: 2px solid rgba(0, 0, 0, 0.20);
+	border-radius: 8px;
+}
+
+.page-actions {
+	flex: 0 0 auto;
+	position: relative;
+}
+
+.page-actions-panel {
+	height: 30px;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 0 6px;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	background: rgba(255, 255, 255, 0.85);
+	border-radius: 10px;
+}
+
+.page-action-icon {
+	width: 30px;
+	height: 30px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 0;
+	background: transparent;
+	border-radius: 10px;
+	padding: 0;
+	font: inherit;
+	font-size: 16px;
+	line-height: 1;
+	cursor: pointer;
+	transition: background 120ms ease;
+}
+
+.page-action-icon:hover {
+	background: rgba(0, 0, 0, 0.06);
+}
+
+.page-action-icon:focus-visible {
+	outline: 2px solid rgba(0, 0, 0, 0.28);
+	outline-offset: 2px;
+}
+
+.page-menu-trigger {
+	width: 30px;
+	height: 30px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	background: rgba(255, 255, 255, 0.85);
+	border-radius: 10px;
+	padding: 0;
+	font: inherit;
+	font-size: 18px;
+	line-height: 1;
+	cursor: pointer;
+	transition: background 120ms ease, border-color 120ms ease;
+}
+
+.page-menu-trigger:hover {
+	background: rgba(255, 255, 255, 1);
+	border-color: rgba(0, 0, 0, 0.20);
+}
+
+.page-menu-trigger:focus-visible {
+	outline: 2px solid rgba(0, 0, 0, 0.28);
+	outline-offset: 2px;
+}
+
+.editor {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	background: rgba(255, 255, 255, 0.92);
+}
+
+.editor-header {
+	padding: 14px 18px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 12px;
+}
+
+.editor-title {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+.editor-subtitle {
+	font-size: 12px;
+	opacity: 0.75;
+}
+
+.editor-body {
+	flex: 1;
+	min-height: 0;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 0;
+}
+
+.editor-body--preview {
+	grid-template-columns: 1fr 1fr;
+}
+
+.editor-pane {
+	min-width: 0;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.editor-textarea {
+	flex: 1;
+	min-height: 0;
+	width: 100%;
+	resize: none;
+	border: 0;
+	outline: none;
+	padding: 18px;
+	background: transparent;
+	font: inherit;
+	line-height: 1.5;
+	overflow: auto;
+}
+
+.editor-body--preview .editor-textarea {
+	border-right: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.editor-preview {
+	min-width: 0;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.editor-preview-header {
+	padding: 10px 14px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+	font-size: 12px;
+	font-weight: 600;
+	opacity: 0.8;
+}
+
+.markdown-preview {
+	flex: 1;
+	min-height: 0;
+	overflow: auto;
+	padding: 18px;
+	line-height: 1.55;
+}
+
+.markdown-preview :first-child {
+	margin-top: 0;
+}
+
+.markdown-preview h1,
+.markdown-preview h2,
+.markdown-preview h3 {
+	margin: 18px 0 10px;
+	line-height: 1.25;
+}
+
+.markdown-preview p {
+	margin: 10px 0;
+}
+
+.markdown-preview code {
+	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+		"Courier New", monospace;
+	font-size: 0.95em;
+	background: rgba(0, 0, 0, 0.06);
+	border-radius: 8px;
+	padding: 0 6px;
+}
+
+.markdown-preview pre {
+	background: rgba(0, 0, 0, 0.06);
+	border-radius: 12px;
+	padding: 12px;
+	overflow: auto;
+}
+
+.markdown-preview pre code {
+	background: transparent;
+	padding: 0;
+}
+
+.markdown-preview blockquote {
+	margin: 12px 0;
+	padding: 0 0 0 12px;
+	border-left: 3px solid rgba(0, 0, 0, 0.16);
+	opacity: 0.9;
+}
+
+.markdown-preview a {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.markdown-preview ul,
+.markdown-preview ol {
+	margin: 10px 0;
+	padding-left: 20px;
+}
+
+.markdown-preview hr {
+	border: 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.10);
+	margin: 16px 0;
+}
+
+.editor-empty {
+	padding: 16px;
+}
